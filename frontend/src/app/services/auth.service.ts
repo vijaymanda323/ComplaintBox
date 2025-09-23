@@ -26,12 +26,21 @@ export interface Admin {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = this.getApiUrl();
   private currentAdminSubject = new BehaviorSubject<Admin | null>(null);
   public currentAdmin$ = this.currentAdminSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.checkStoredToken();
+  }
+
+  private getApiUrl(): string {
+    // Check if we're in production (Vercel)
+    if (window.location.hostname.includes('vercel.app') || window.location.hostname.includes('vercel.com')) {
+      return '/api';
+    }
+    // Development
+    return 'http://localhost:3000/api';
   }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {

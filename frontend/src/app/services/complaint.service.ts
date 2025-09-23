@@ -7,9 +7,18 @@ import { Complaint, ComplaintFormData, ComplaintResponse, ComplaintsResponse, An
   providedIn: 'root'
 })
 export class ComplaintService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = this.getApiUrl();
 
   constructor(private http: HttpClient) {}
+
+  private getApiUrl(): string {
+    // Check if we're in production (Vercel)
+    if (window.location.hostname.includes('vercel.app') || window.location.hostname.includes('vercel.com')) {
+      return '/api';
+    }
+    // Development
+    return 'http://localhost:3000/api';
+  }
 
   submitComplaint(formData: ComplaintFormData): Observable<ComplaintResponse> {
     const form = new FormData();

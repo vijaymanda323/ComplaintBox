@@ -831,6 +831,13 @@ export class AdminDashboardComponent implements OnInit {
     if (fileUrl.startsWith('http')) {
       return fileUrl;
     }
+    
+    // Check if we're in production (Vercel)
+    if (window.location.hostname.includes('vercel.app') || window.location.hostname.includes('vercel.com')) {
+      return fileUrl; // Vercel handles static files automatically
+    }
+    
+    // Development
     return `http://localhost:3000${fileUrl}`;
   }
 }
