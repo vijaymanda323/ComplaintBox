@@ -50,12 +50,15 @@ npm i -g vercel
 # Login to Vercel
 vercel login
 
-# Deploy from project root
+# Deploy with custom name (if project name exists)
+vercel --name your-unique-project-name
+
+# Or deploy normally and choose name during setup
 vercel
 
 # Follow prompts:
 # - Link to existing project? No
-# - Project name: compliantbox
+# - Project name: [choose unique name like compliantbox-2024]
 # - Directory: ./
 # - Override settings? No
 ```
@@ -126,6 +129,7 @@ Vercel has limitations for file uploads in serverless functions:
 3. **CORS Issues**: Update FRONTEND_URL environment variable
 4. **File Uploads**: Check file size limits and storage
 5. **CSS Bundle Size Errors**: Fixed by updating angular.json budgets
+6. **Project Name Conflicts**: Use `vercel --name unique-name` or choose different name
 
 ### Debug Commands:
 ```bash
