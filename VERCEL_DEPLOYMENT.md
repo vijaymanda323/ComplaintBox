@@ -74,9 +74,15 @@ vercel
 ## Step 4: Configure Build Settings
 
 ### Root Directory Build Settings:
-- Build Command: `cd frontend && npm run build && cd ../backend && npm run build`
+- Build Command: `cd frontend && npm run vercel-build && cd ../backend && npm run build`
 - Output Directory: `frontend/dist`
 - Install Command: `cd frontend && npm install && cd ../backend && npm install`
+
+### CSS Bundle Size Fix:
+The Angular configuration has been updated to handle larger CSS bundles:
+- Component styles budget increased to 20kb (from 4kb)
+- Initial bundle budget increased to 5mb (from 1mb)
+- Added production optimizations for better performance
 
 ### Environment Variables:
 Add all required environment variables in Vercel dashboard under Settings > Environment Variables.
@@ -119,6 +125,7 @@ Vercel has limitations for file uploads in serverless functions:
 2. **Database Connection**: Verify MONGODB_URI format
 3. **CORS Issues**: Update FRONTEND_URL environment variable
 4. **File Uploads**: Check file size limits and storage
+5. **CSS Bundle Size Errors**: Fixed by updating angular.json budgets
 
 ### Debug Commands:
 ```bash

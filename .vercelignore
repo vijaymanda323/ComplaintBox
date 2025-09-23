@@ -1,0 +1,37 @@
+# Vercel ignore file
+# Ignore development files and folders
+
+# Node modules
+node_modules/
+*/node_modules/
+
+# Development files
+.env
+.env.local
+.env.development
+*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts (keep only the final dist)
+frontend/dist/college-complaint-box/
+backend/dist/*.map
+backend/dist/**/*.map
+
+# Documentation (optional - remove if you want to include)
+README.md
+SETUP.md
+VERCEL_DEPLOYMENT.md
+deploy.sh
+
+# Git
+.git/
+.gitignore
