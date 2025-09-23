@@ -13,7 +13,8 @@
       "src": "backend/api/index.js",
       "use": "@vercel/node",
       "config": {
-        "maxDuration": 30
+        "maxDuration": 60,
+        "memory": 1024
       }
     }
   ],
