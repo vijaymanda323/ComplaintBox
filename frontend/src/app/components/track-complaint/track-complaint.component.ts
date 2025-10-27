@@ -74,7 +74,7 @@ import { Complaint } from '../../models/complaint.model';
             <div class="complaint-info">
               <div class="info-row">
                 <span class="label">Complaint ID:</span>
-                <span class="value">{{complaint._id}}</span>
+                <span class="value">{{complaint.id}}</span>
               </div>
               
               <div class="info-row">

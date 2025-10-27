@@ -83,6 +83,23 @@ import { ComplaintFormData } from '../../models/complaint.model';
               </mat-form-field>
             </div>
 
+            <!-- Email Field -->
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email Address *</mat-label>
+                <input matInput formControlName="email" 
+                       type="email"
+                       placeholder="Enter your email address">
+                <mat-hint>We'll use this to send updates about your complaint</mat-hint>
+                <mat-error *ngIf="complaintForm.get('email')?.hasError('required')">
+                  Email is required
+                </mat-error>
+                <mat-error *ngIf="complaintForm.get('email')?.hasError('email')">
+                  Please enter a valid email address
+                </mat-error>
+              </mat-form-field>
+            </div>
+
             <!-- Department Field -->
             <div class="form-row">
               <mat-form-field appearance="outline" class="full-width">
@@ -94,6 +111,8 @@ import { ComplaintFormData } from '../../models/complaint.model';
                   <mat-option value="CE">Civil Engineering (CE)</mat-option>
                   <mat-option value="EE">Electrical Engineering (EE)</mat-option>
                   <mat-option value="IT">Information Technology (IT)</mat-option>
+                  <mat-option value="AI">Artificial Intelligence (AI)</mat-option>
+                  <mat-option value="ML">Machine Learning (ML)</mat-option>
                   <mat-option value="Other">Other</mat-option>
                 </mat-select>
                 <mat-error *ngIf="complaintForm.get('department')?.hasError('required')">
@@ -700,6 +719,7 @@ export class SubmitComplaintComponent implements OnInit {
   initializeForm(): void {
     this.complaintForm = this.fb.group({
       name: [''],
+      email: ['', [Validators.required, Validators.email]],
       department: ['', Validators.required],
       year: [''],
       category: ['', Validators.required],
@@ -736,6 +756,7 @@ export class SubmitComplaintComponent implements OnInit {
     // Clear form values but keep the form structure
     this.complaintForm.patchValue({
       name: '',
+      email: '',
       department: '',
       year: '',
       category: '',
@@ -763,41 +784,32 @@ export class SubmitComplaintComponent implements OnInit {
     this.selectedFiles.splice(index, 1);
   }
 
-  generateComplaintId(): string {
-    const year = new Date().getFullYear();
-    const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-    return `CMP-${year}-${randomNum}`;
-  }
 
   onSubmit(): void {
     if (this.complaintForm.valid) {
       this.isLoading = true;
       
-      const complaintId = this.generateComplaintId();
-      
       const formData: ComplaintFormData = {
-        id: complaintId,
         userType: this.selectedUserType,
         name: this.complaintForm.value.name,
+        email: this.complaintForm.value.email,
         department: this.complaintForm.value.department,
         year: this.complaintForm.value.year,
         category: this.complaintForm.value.category,
         title: this.complaintForm.value.title,
         description: this.complaintForm.value.description,
-        files: this.selectedFiles.length > 0 ? this.selectedFiles : undefined,
-        status: 'Submitted',
-        submittedAt: new Date().toISOString()
+        files: this.selectedFiles.length > 0 ? this.selectedFiles : undefined
       };
 
       this.complaintService.submitComplaint(formData).subscribe({
         next: (response) => {
           this.isLoading = false;
           this.isSubmitted = true;
-          this.submittedComplaintId = complaintId;
+          this.submittedComplaintId = response.complaintId; // Use backend-generated ID
           
           // Show success message
           this.snackBar.open(
-            `Complaint submitted successfully! ID: ${complaintId}`, 
+            `Complaint submitted successfully! ID: ${response.complaintId}`, 
             'Close', 
             { duration: 8000 }
           );

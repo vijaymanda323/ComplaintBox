@@ -24,6 +24,7 @@ export class ComplaintService {
     const form = new FormData();
     form.append('userType', formData.userType);
     if (formData.name) form.append('name', formData.name);
+    form.append('email', formData.email);
     form.append('department', formData.department);
     if (formData.year) form.append('year', formData.year);
     form.append('category', formData.category);

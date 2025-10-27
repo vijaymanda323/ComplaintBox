@@ -3,6 +3,7 @@ export interface Complaint {
   id: string;
   userType: 'student' | 'faculty';
   name?: string;
+  email: string;
   department: string;
   year?: string;
   category: string;
@@ -20,6 +21,7 @@ export interface ComplaintFormData {
   id?: string;
   userType: 'student' | 'faculty';
   name?: string;
+  email: string;
   department: string;
   year?: string;
   category: string;
